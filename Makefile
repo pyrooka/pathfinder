@@ -72,7 +72,6 @@ QGISDIR=.qgis2
 default: compile
 
 compile: $(COMPILED_RESOURCE_FILES)
-	g++ astar.cpp -o astar.so -O3 -Wall -shared -fpic
 
 %.py : %.qrc $(RESOURCES_SRC)
 	pyrcc4 -o $*.py  $<

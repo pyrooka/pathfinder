@@ -330,14 +330,14 @@ class PathFinder:
             except:
                 return (False, 'Invalid band number.')
 
-        # Check the elevation limit.
+        # Check the value limit.
         if self.dlg.lineEdit.text() == '':
-            return (False, 'No elevation provided.')
+            return (False, 'No value provided.')
 
         try:
             float(self.dlg.lineEdit.text())
         except:
-            return (False, 'Invalid elevation.')
+            return (False, 'Invalid value.')
 
         # Now the coordinates.
         if self.dlg.lineEdit_2.text() == '' or self.dlg.lineEdit_3.text() == '':
@@ -396,8 +396,8 @@ class PathFinder:
         # The band which contains the information.
         band = raster.GetRasterBand(band_number)
 
-        # The max elevation.
-        max_elevation = float(self.dlg.lineEdit.text())
+        # The max value.
+        max_value = float(self.dlg.lineEdit.text())
 
         # Try to read the given band.
         try:
@@ -414,11 +414,11 @@ class PathFinder:
         end_coordinates_np = end_coordinates[::-1]
 
         # Check the coordinates aren't "wall" pixels.
-        if band_array[start_coordinates_np[0], start_coordinates_np[1]] >= max_elevation:
-            QgsMessageLog.logMessage('The starting coordinates are above the maximum elevation.')
+        if band_array[start_coordinates_np[0], start_coordinates_np[1]] >= max_value:
+            QgsMessageLog.logMessage('The starting coordinates are above the maximum value.')
             return
-        if band_array[end_coordinates_np[0], end_coordinates_np[1]] >= max_elevation:
-            QgsMessageLog.logMessage('The ending coordinates are above the maximum elevation.')
+        if band_array[end_coordinates_np[0], end_coordinates_np[1]] >= max_value:
+            QgsMessageLog.logMessage('The ending coordinates are above the maximum value.')
             return
 
         # Create copy from the band. To secure our raster and don't overwrite accidentally.
@@ -427,8 +427,8 @@ class PathFinder:
         # Process the grid for the algorithm.
         # Inf = wall
         # 1 = free area
-        grid[band_array >= max_elevation] = np.inf
-        grid[band_array < max_elevation] = 1
+        grid[band_array >= max_value] = np.inf
+        grid[band_array < max_value] = 1
 
         # Get the time for measure the algorithm.
         t0 = time()

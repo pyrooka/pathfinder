@@ -1,0 +1,9 @@
+# Generated files
+*.pyc
+*.so
+
+# Python virtualenv
+venv/
+
+# Visual Studio Code config
+.vscode/
